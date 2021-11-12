@@ -1,9 +1,9 @@
 # CS113-HW9-HashTable
-## HW #9 for CS113 - HashTableChain w/ Map
+## HW #9 for CS113 - edu.miracosta.cs113.HashTableChain w/ Map
 
-Complete the `HashTableChain` from lecture/book (Section 7.4) so that it fully implements the [`java.util.Map`](https://docs.oracle.com/javase/7/docs/api/java/util/Map.html) interface (you may only omit/stub out the `putAll()` and `values()` methods, all other methods must be implemented).
+Complete the `edu.miracosta.cs113.HashTableChain` from lecture/book (Section 7.4) so that it fully implements the [`java.util.Map`](https://docs.oracle.com/javase/7/docs/api/java/util/Map.html) interface (you may only omit/stub out the `putAll()` and `values()` methods, all other methods must be implemented).
 
-Also, complete the `SetIterator`, as described in section 7.5, for your `HashTableChain`.  This will required creating the class `EntrySet`, both of which will help you create the `entrySet()` method in the `Map` interface.  The `SetIterator` should behave as [iterators](https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html) do:
+Also, complete the `SetIterator`, as described in section 7.5, for your `edu.miracosta.cs113.HashTableChain`.  This will required creating the class `EntrySet`, both of which will help you create the `entrySet()` method in the `Map` interface.  The `SetIterator` should behave as [iterators](https://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html) do:
 - Provides methods `hasNext()` and `next()`
 - Use data field index to keep track of the next value of the iterator (initially 0)
 - Data field `lastItemReturned` keeps track of the index of the last item returned by `next()`; this is used by the `remove()` method

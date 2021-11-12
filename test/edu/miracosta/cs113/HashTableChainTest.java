@@ -7,14 +7,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * HashTableChainTest : Tester class for a hash table implementation which utilizes chaining. As a class which extends
- * Java's Map, HashTableChain will be assessed for its functionality through its implementation of this interface.
+ * Java's Map, edu.miracosta.cs113.HashTableChain will be assessed for its functionality through its implementation of this interface.
  *
  * @author King
  * @version 1.0
