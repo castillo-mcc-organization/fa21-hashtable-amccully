@@ -1,9 +1,6 @@
 package edu.miracosta.cs113;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class HashTableChain<T, T1> implements Map<String, Integer> {
 
@@ -54,6 +51,39 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Hashtable)) {
+            return false;
+        }
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] != null) {
+                for(Entry element : table[i]) {
+                    if(!((Hashtable) o).containsKey(element.getKey()) ||
+                            !((Hashtable) o).get(element.getKey()).equals(element.getValue())) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /*
+        @Override
+        public String toString() {
+            String objString = "[";
+            for(int i = 0; i < table.length; i++) {
+                if(table[i] != null) {
+                    for(Entry element : table[i]) {
+                       objString += element.getKey() + "=" + element.getValue() + ", ";
+                    }
+                }
+            }
+            return objString.substring(0,objString.length()-2) + "]";
+        }
+    */
+
+    @Override
     public int size() {
         return numKeys;
     }
@@ -72,7 +102,16 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
     }
 
     @Override
-    public boolean containsValue(Object o) {
+    public boolean containsValue(Object value) {
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] != null) {
+                for(Entry element : table[i]) {
+                    if(element.getValue().equals(value)) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -173,7 +212,36 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
 
     @Override
     public Set<Map.Entry<String, Integer>> entrySet() {
-        return null;
+        return new EntrySet();
+    }
+
+    private class EntrySet<K, V> extends AbstractSet<Object> {
+        @Override
+        public Iterator<Object> iterator() {
+            return new SetIterator<>();
+        }
+
+        @Override
+        public int size() {
+            return numKeys;
+        }
+    }
+
+    private class SetIterator<E> implements Iterator {
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Object next() {
+            return null;
+        }
+
+        @Override
+        public void remove() {
+
+        }
     }
 }
 
