@@ -64,7 +64,10 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
     }
 
     @Override
-    public boolean containsKey(Object o) {
+    public boolean containsKey(Object key) {
+        if(get(key) != null) {
+            return true;
+        }
         return false;
     }
 
@@ -112,8 +115,38 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
         return null;
     }
 
+    public void rehash() {
+        LinkedList<Entry<String, Integer>>[] oldTable = table;
+        table = new LinkedList[(oldTable.length * 2) + 1];
+        numKeys = 0;
+        for(int i = 0; i < oldTable.length; i++) {
+            if(oldTable[i] != null) {
+                for(Entry element : oldTable[i]) {
+                    put((String) element.getKey(), (Integer) element.getValue());
+                }
+            }
+        }
+    }
+
     @Override
-    public Integer remove(Object o) {
+    public Integer remove(Object key) {
+        int index = key.hashCode() % table.length;
+        if(index < 0) {
+            index += table.length;
+        }
+        if(table[index] == null) {
+            return null;
+        }
+        for(Entry element : table[index]) {
+            if(element.getKey().equals(key)) {
+                table[index].remove(element);
+                numKeys--;
+                if(table[index].isEmpty()) {
+                    table[index] = null;
+                }
+                return (Integer) element.getValue();
+            }
+        }
         return null;
     }
 
@@ -124,7 +157,8 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
 
     @Override
     public void clear() {
-
+        numKeys = 0;
+        table = new LinkedList[CAPACITY];
     }
 
     @Override
