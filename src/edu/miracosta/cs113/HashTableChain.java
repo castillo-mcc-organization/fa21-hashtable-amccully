@@ -68,6 +68,19 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        int hashVal = 0;
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] != null) {
+                for(Entry element : table[i]) {
+                    hashVal += (element.getKey().hashCode() ^ element.getValue().hashCode());
+                }
+            }
+        }
+        return hashVal;
+    }
+
     /*
         @Override
         public String toString() {
@@ -215,9 +228,9 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
         return new EntrySet();
     }
 
-    private class EntrySet<K, V> extends AbstractSet<Object> {
+    private class EntrySet<K, V> extends AbstractSet<Map.Entry<K, V>> {
         @Override
-        public Iterator<Object> iterator() {
+        public Iterator<Map.Entry<K, V>> iterator() {
             return new SetIterator<>();
         }
 
@@ -227,14 +240,29 @@ public class HashTableChain<T, T1> implements Map<String, Integer> {
         }
     }
 
-    private class SetIterator<E> implements Iterator {
+    private class SetIterator<Entry> implements Iterator {
+
+        private int index = 0;
+        private int lastItemReturned;
+        HashTableChain.Entry data[];
+
+        public SetIterator() {
+            data = new HashTableChain.Entry[numKeys];
+            for(int i = 0; i < table.length; i++) {
+                if(table[i] != null) {
+                    
+                }
+            }
+        }
+
         @Override
         public boolean hasNext() {
+
             return false;
         }
 
         @Override
-        public Object next() {
+        public Entry next() {
             return null;
         }
 
