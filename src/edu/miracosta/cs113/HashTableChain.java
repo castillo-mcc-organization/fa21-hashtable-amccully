@@ -2,24 +2,36 @@ package edu.miracosta.cs113;
 
 import java.util.*;
 
+/**
+ * HashTableChain.java : A Hashtable class which uses the method of chaining to store key, value pairings
+ *
+ * @author          Aaron McCully <amccully2001@gmail.com>
+ * @version         1.0
+ *
+ * @param <K, V>    K is the key, V is the value that corresponds with the key
+ */
 public class HashTableChain<K, V> implements Map<K, V> {
-
+    // data fields
     private LinkedList<Entry<K, V>>[] table;
     private int numKeys;
     private static final int CAPACITY = 101;
     private static final double LOAD_THRESHOLD = 3.0;
-    // Constructor
+    /**
+     *  Default constructor that creates an empty table (an array of LinkedLists) with size capacity
+     */
     public HashTableChain() {
         table = new LinkedList[CAPACITY];
     }
-
-    /** Contains key‐value pairs for a hash table. */
+    /**
+     * An inner class for creating entries that contain key-value pairs for the hashtable
+     * @param <K, V>    K is the key, V is the value that corresponds with the key
+     */
     private static class Entry<K, V> {
-
+        // data fields
         private final K key;
         private V value;
-
-        /** Creates a new key‐value pair.
+        /**
+         * Creates a new key‐value pair.
          * @param key The key
          * @param value The value
          */
@@ -27,21 +39,24 @@ public class HashTableChain<K, V> implements Map<K, V> {
             this.key = key;
             this.value = value;
         }
-        /** Retrieves the key.
+        /**
+         * Retrieves the key.
          * @return The key
          */
         public K getKey() {
             return key;
         }
-        /** Retrieves the value.
+        /**
+         * Retrieves the value.
          * @return The value
          */
         public V getValue() {
             return value;
         }
-        /** Sets the value.
-         @param val The new value
-         @return The old value
+        /**
+         * Sets the value.
+         * @param val The new value
+         * @return The old value
          */
         public V setValue(V val) {
             V oldVal = value;
@@ -93,10 +108,7 @@ public class HashTableChain<K, V> implements Map<K, V> {
 
     @Override
     public boolean containsKey(Object key) {
-        if(get(key) != null) {
-            return true;
-        }
-        return false;
+        return get(key) != null;
     }
 
     @Override
@@ -152,6 +164,9 @@ public class HashTableChain<K, V> implements Map<K, V> {
         return null;
     }
 
+    /**
+     * A method for rehashing the Hashtable. A new table that is double the size, plus 1, will replace the old table
+     */
     public void rehash() {
         LinkedList<Entry<K, V>>[] oldTable = table;
         table = new LinkedList[(oldTable.length * 2) + 1];
@@ -213,21 +228,33 @@ public class HashTableChain<K, V> implements Map<K, V> {
         return new EntrySet<>();
     }
 
+    /**
+     * An inner class that extends the EntrySet class, used to display a set of all the keys in the Hashtable.
+     * @param <K, V>    K is the key, V is the value that corresponds with the key
+     */
     private class KeySet<K> extends EntrySet<K, V> {
+        // can override next() from EntrySet to only return the key value of an entry
         @Override
         public String toString() {
             String objString = "[";
-            for(Entry<K, V> element : setTable) {
+            for(Entry element : setTable) {
                 objString += element.getKey() + ", ";
             }
             return objString.substring(0,objString.length()-2) + "]";
         }
     }
 
+    /**
+     * An inner class used to display a set of all the entries in the Hashtable.
+     * @param <K, V>    K is the key, V is the value that corresponds with the key
+     */
     private class EntrySet<K, V> extends AbstractSet<Map.Entry<K, V>> {
-
+        // data fields
         LinkedList<Entry<K, V>> setTable;
 
+        /**
+         * Default constructor: copies entries from the Hashtable and makes a Set of them using a single LinkedList
+         */
         EntrySet() {
             setTable = new LinkedList<>();
             int index = 0;
@@ -243,7 +270,7 @@ public class HashTableChain<K, V> implements Map<K, V> {
         @Override
         public String toString() {
             String objString = "[";
-            for(Entry<K, V> element : setTable) {
+            for(Entry element : setTable) {
                 objString += element.getKey() + "=" + element.getValue() + ", ";
             }
             return objString.substring(0,objString.length()-2) + "]";
@@ -259,11 +286,18 @@ public class HashTableChain<K, V> implements Map<K, V> {
             return numKeys;
         }
 
+        /**
+         * An inner class of EntrySet that can iterate over the entries in the Set.
+         * @param <Entry>   The data that is stored in a Set, consisting of key, value pairs
+         */
         private class SetIterator<Entry> implements Iterator {
-
+            // data fields
             private int index;
             private int lastItemReturned;
 
+            /**
+             * Default constructor: starts iterator at index 0, with no item having been returned yet
+             */
             public SetIterator() {
                 index = 0;
                 lastItemReturned = -1;
@@ -286,12 +320,12 @@ public class HashTableChain<K, V> implements Map<K, V> {
             @Override
             public void remove() {
                 if(lastItemReturned != -1) {
+                    HashTableChain.this.remove(setTable.get(lastItemReturned).getKey());
                     setTable.remove(lastItemReturned);
                     lastItemReturned = -1;
                 }
             }
         }
     }
-
 }
 
