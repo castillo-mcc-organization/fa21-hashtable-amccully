@@ -1,6 +1,12 @@
 package edu.miracosta.cs113;
 
-import java.util.*;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * HashTableChain.java : A Hashtable class which uses the method of chaining to store key, value pairings
